@@ -1,8 +1,8 @@
-'use client';
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { createContext, useContext, useState, ReactNode } from "react";
+import { FavoritesProvider } from "@/context/FavoritesContext";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,37 +15,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-interface FavoritesContextType {
-  favorites: string[];
-  setFavorites: (favorites: string[]) => void;
-}
-
-export const FavoritesContext = createContext<FavoritesContextType | null>(null);
-
-export const useFavorites = () => {
-  const context = useContext(FavoritesContext);
-  if (!context) {
-    throw new Error("useFavorites must be used within FavoritesProvider");
-  }
-  return context;
+export const metadata: Metadata = {
+  title: "Wanderlust Explorer",
+  description: "Descubre experiencias únicas alrededor del mundo",
 };
-
-function FavoritesProvider({ children }: { children: ReactNode }) {
-  const [favorites, setFavorites] = useState<string[]>([]);
-
-  return (
-    <FavoritesContext.Provider value={{ favorites, setFavorites }}>
-      {children}
-    </FavoritesContext.Provider>
-  );
-}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-white">
+      <body className="min-h-full flex flex-col bg-white font-sans text-gray-900">
         <FavoritesProvider>
+          <Navbar />
           {children}
+          <Footer />
         </FavoritesProvider>
       </body>
     </html>

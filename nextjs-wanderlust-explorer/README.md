@@ -14,7 +14,7 @@ Wanderlust Explorer es una plataforma web de descubrimiento de experiencias de v
 ### 2. **Sistema de Favoritos**
 - Guardar experiencias favoritas en memoria
 - Contador dinámico en la navegación
-- Persisencia mediante React Context
+- Estado compartido en memoria mediante React Context (se reinicia al recargar la página)
 - Gestión sin recargas de página
 
 ### 3. **Detalle de Experiencias**
@@ -121,7 +121,7 @@ npm install
 npm run dev
 
 # Compilar para producción
-npm build
+npm run build
 
 # Iniciar servidor de producción
 npm start

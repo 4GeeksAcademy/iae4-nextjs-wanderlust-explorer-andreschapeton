@@ -1,14 +1,8 @@
-'use client';
-
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { ArrowRight, Compass, Heart, Users } from 'lucide-react';
 
 export default function Home() {
   return (
-    <>
-      <Header />
       <main className="flex-1">
         <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-20 sm:py-32">
           <div className="absolute inset-0 opacity-10">
@@ -113,7 +107,5 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <Footer />
-    </>
   );
 }

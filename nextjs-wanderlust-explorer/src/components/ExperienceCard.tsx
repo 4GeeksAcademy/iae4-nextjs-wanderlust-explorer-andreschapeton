@@ -1,46 +1,44 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Heart, Star, MapPin, DollarSign } from 'lucide-react';
 import { Experience } from '@/data/experiences';
-import { useFavorites } from '@/app/layout';
-import Image from 'next/image';
+import { useFavorites } from '@/context/FavoritesContext';
+import { getExperienceImageUrl } from '@/lib/experience-image';
 
 interface ExperienceCardProps {
   experience: Experience;
+  returnHref?: string;
 }
 
-export default function ExperienceCard({ experience }: ExperienceCardProps) {
-  const { favorites, setFavorites } = useFavorites();
-  const isFavorite = favorites.includes(experience.id);
-
-  const toggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (isFavorite) {
-      setFavorites(favorites.filter(id => id !== experience.id));
-    } else {
-      setFavorites([...favorites, experience.id]);
-    }
-  };
+export default function ExperienceCard({ experience, returnHref = '/experiences' }: ExperienceCardProps) {
+  const { isFavorite: checkFavorite, toggleFavorite } = useFavorites();
+  const isFavorite = checkFavorite(experience.id);
+  const detailHref = `/experiences/${experience.id}?${new URLSearchParams({ returnTo: returnHref }).toString()}`;
 
   return (
-    <Link href={`/experiences/${experience.id}`}>
-      <article className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-pointer h-full flex flex-col">
+    <article className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col">
         <div className="relative w-full h-48 overflow-hidden bg-gray-200">
-          <img
-            src={experience.imageUrl}
-            alt={experience.title}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-          />
+          <Link href={detailHref} aria-label={`Ver ${experience.title}`} className="block h-full">
+            <Image
+              src={getExperienceImageUrl(experience.id, experience.title, experience.category, experience.imageUrl)}
+              alt={experience.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 640px"
+              className="object-cover hover:scale-105 transition-transform duration-300"
+            />
+          </Link>
           <div className="absolute top-3 right-3">
             <button
-              onClick={toggleFavorite}
+              onClick={() => toggleFavorite(experience.id)}
               className={`p-2 rounded-full transition-all ${
                 isFavorite 
                   ? 'bg-red-500 text-white' 
                   : 'bg-white text-gray-600 hover:bg-red-500 hover:text-white'
               }`}
-              aria-label="Add to favorites"
+              aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+              aria-pressed={isFavorite}
             >
               <Heart className="w-5 h-5" fill={isFavorite ? 'currentColor' : 'none'} />
             </button>
@@ -53,9 +51,9 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
         </div>
 
         <div className="p-4 flex-1 flex flex-col">
-          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+          <Link href={detailHref} className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 hover:text-blue-700">
             {experience.title}
-          </h3>
+          </Link>
 
           <p className="text-gray-600 text-sm mb-3 line-clamp-2 flex-1">
             {experience.description}
@@ -80,11 +78,10 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
         </div>
 
         <div className="px-4 pb-4">
-          <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 rounded-lg font-semibold hover:shadow-lg transition-shadow duration-300">
+          <Link href={detailHref} className="block text-center w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 rounded-lg font-semibold hover:shadow-lg transition-shadow duration-300">
             Ver Detalles
-          </button>
+          </Link>
         </div>
-      </article>
-    </Link>
+    </article>
   );
 }

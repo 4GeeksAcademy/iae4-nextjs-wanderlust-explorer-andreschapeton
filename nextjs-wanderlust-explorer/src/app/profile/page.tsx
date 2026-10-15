@@ -1,8 +1,6 @@
 'use client';
 
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import { useFavorites } from '@/app/layout';
+import { useFavorites } from '@/context/FavoritesContext';
 import { User, Mail, MapPin, Heart, Calendar } from 'lucide-react';
 import Link from 'next/link';
 
@@ -10,8 +8,6 @@ export default function ProfilePage() {
   const { favorites } = useFavorites();
 
   return (
-    <>
-      <Header />
       <main className="flex-1 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-12">Mi Perfil</h1>
@@ -120,7 +116,5 @@ export default function ProfilePage() {
           </div>
         </div>
       </main>
-      <Footer />
-    </>
   );
 }

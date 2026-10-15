@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-12 mt-16">
@@ -12,10 +14,11 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Categorías</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="/experiences?category=Adventure" className="hover:text-white">Aventura</a></li>
-              <li><a href="/experiences?category=Culture" className="hover:text-white">Cultura</a></li>
-              <li><a href="/experiences?category=Food" className="hover:text-white">Gastronomía</a></li>
-              <li><a href="/experiences?category=Wellness" className="hover:text-white">Bienestar</a></li>
+              <li><Link href="/experiences?category=Adventure" className="hover:text-white">Aventura</Link></li>
+              <li><Link href="/experiences?category=Culture" className="hover:text-white">Cultura</Link></li>
+              <li><Link href="/experiences?category=Food" className="hover:text-white">Gastronomía</Link></li>
+              <li><Link href="/experiences?category=Wellness" className="hover:text-white">Bienestar</Link></li>
+              <li><Link href="/experiences?category=Nature" className="hover:text-white">Naturaleza</Link></li>
             </ul>
           </div>
           <div>
